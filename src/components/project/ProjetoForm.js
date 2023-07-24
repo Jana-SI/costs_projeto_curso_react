@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import BotaoSubmit from '../form/BotaoSubmit'
 import Input from '../form/Input'
 import Select from '../form/Select'
@@ -5,6 +7,23 @@ import Select from '../form/Select'
 import styles from './ProjetoForm.module.css'
 
 function ProjetoForm({btnText}) {
+
+    const [categorias, setCategorias] = useState([])
+
+    useEffect(() => {
+        fetch("http://localhost:5000/categorias", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+            setCategorias(data)
+        })
+        .catch((err) => console.log(err))
+    }, [])
+
     return (
         <form className={styles.form}>
             <Input 
@@ -21,7 +40,8 @@ function ProjetoForm({btnText}) {
 
             <Select 
                 name="category_id"
-                text="Selecione a categoria"/>
+                text="Selecione a categoria"
+                options={categorias}/>
 
             <BotaoSubmit text={btnText}/>
         </form>
