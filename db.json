@@ -1,17 +1,5 @@
 {
-  "projetos": [
-    {
-      "nomeP": "teste",
-      "valorT": "1000",
-      "categorias": {
-        "id": "1",
-        "name": "infra"
-      },
-      "cost": 0,
-      "servicos": [],
-      "id": 1
-    }
-  ],
+  "projetos": [],
   "categorias": [
     {
       "id": 1,
