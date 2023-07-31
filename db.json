@@ -1,5 +1,50 @@
 {
-  "projetos": [],
+  "projetos": [
+    {
+      "nomeP": "01",
+      "valorT": "1000",
+      "categorias": {
+        "id": "1",
+        "name": "infra"
+      },
+      "cost": 0,
+      "servicos": [],
+      "id": 1
+    },
+    {
+      "nomeP": "2",
+      "valorT": "2000",
+      "categorias": {
+        "id": "2",
+        "name": "Desenvolvimento"
+      },
+      "cost": 0,
+      "servicos": [],
+      "id": 2
+    },
+    {
+      "nomeP": "3",
+      "valorT": "3000",
+      "categorias": {
+        "id": "3",
+        "name": "Design"
+      },
+      "cost": 0,
+      "servicos": [],
+      "id": 3
+    },
+    {
+      "nomeP": "4",
+      "valorT": "4000",
+      "categorias": {
+        "id": "4",
+        "name": "Planejamento"
+      },
+      "cost": 0,
+      "servicos": [],
+      "id": 4
+    }
+  ],
   "categorias": [
     {
       "id": 1,
