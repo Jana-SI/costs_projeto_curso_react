@@ -1,0 +1,9 @@
+.projeto_container{
+    padding: 2em;
+}
+
+.titulo_container{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2em;
+}
