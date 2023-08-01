@@ -6,11 +6,14 @@ import styles from './Projetos.module.css'
 import Msg from "../layout/Msg"
 import Container from "../layout/Container"
 import LinkButton from "../layout/LinkButton"
+import Carregamento from "../layout/Carregamento"
+
 import ProjetoCard from "../project/ProjetoCard"
 
 function Projetos() {
 
   const [projetos, setProjetos] = useState([])
+  const [removeCarregamento, setRemoveCarregamento] = useState(false)
 
   const local = useLocation()
 
@@ -21,17 +24,20 @@ function Projetos() {
   }
 
   useEffect(() => {
-    fetch('http://localhost:5000/projetos', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    }).then((resp) => resp.json())
-      .then((data) => {
-        console.log(data)
-        setProjetos(data)
-      })
-      .catch((err) => console.log(err))
+    setTimeout(() => {
+      fetch('http://localhost:5000/projetos', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then((resp) => resp.json())
+        .then((data) => {
+          console.log(data)
+          setProjetos(data)
+          setRemoveCarregamento(true)
+        })
+        .catch((err) => console.log(err))
+    }, 300)
   }, [])
 
   return (
@@ -52,6 +58,10 @@ function Projetos() {
               categoria={projeto.categorias.name}
               key={projeto.id}/>
           ))}
+          {!removeCarregamento && <Carregamento />}
+          {removeCarregamento && projetos.length === 0 &&(
+            <p>Não há projetos cadastrados!</p>
+          )}
       </Container>
     </div>
   )
