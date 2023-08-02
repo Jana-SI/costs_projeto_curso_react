@@ -1,8 +1,8 @@
 {
   "projetos": [
     {
-      "nomeP": "01",
-      "valorT": "1000",
+      "nomeP": "Projeto inicial",
+      "valorT": "6000",
       "categorias": {
         "id": "1",
         "name": "infra"

@@ -3,27 +3,32 @@ import { useEffect, useState } from 'react'
 
 import styles from './Projeto.module.css'
 
-import Carregamento from '../../components/layout/Carregamento'
-import Container from '../../components/layout/Container'
+import Carregamento from '../layout/Carregamento'
+import Container from '../layout/Container'
+import Msg from '../layout/Msg'
+
+import ProjetoForm from '../project/ProjetoForm'
 
 function Projeto() {
 
   const { id } = useParams()
   const [projeto, setProjeto] = useState([])
   const [mostraProjetoForm, setMostraProjetoForm] = useState(false)
+  const [msg, setMsg] = useState()
+  const [tipo, setTipo] = useState()
 
   useEffect(() => {
     setTimeout(() => {
       fetch(`http://localhost:5000/projetos/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then((resp) => resp.json())
-      .then((data) => {
-        setProjeto(data)
-      })
-      .catch((err) => console.log(err))
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((resp) => resp.json())
+        .then((data) => {
+          setProjeto(data)
+        })
+        .catch((err) => console.log(err))
     }, 300)
   }, [id])
 
@@ -31,11 +36,39 @@ function Projeto() {
     setMostraProjetoForm(!mostraProjetoForm)
   }
 
+  function editPost(projeto) {
+
+    if (projeto.valorT < projeto.cost) {
+      setMsg('O orçamento não pode ser menor que o custo do projeto!')
+      setTipo('erro')
+      return false
+    }
+
+    fetch(`http://localhost:5000/projetos/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(projeto),
+    }).then((resp) => resp.json())
+      .then((data) => {
+        setProjeto(data)
+        setMostraProjetoForm(false)
+
+        setMsg('Projeto atualizado!')
+      setTipo('sucesso')
+      })
+      .catch((err) => console.log(err))
+  }
+
   return (
     <>
       {projeto.nomeP ? (
         <div className={styles.projeto_detalhes}>
-          <Container customClass="column"></Container>
+          <Container customClass="column">
+
+          {msg && <Msg tipo={tipo} msg={msg} />}
+
           <div className={styles.detalhes_container}>
             <h1>Projeto: {projeto.nomeP}</h1>
 
@@ -55,12 +88,14 @@ function Projeto() {
                   <span>Total Utilizado:</span> R$ {projeto.cost}
                 </p>
               </div>
-              ) : (
-                <div className={styles.projeto_info}>
-                  <p>from</p>
-                </div>
-              )}
+            ) : (
+              <div className={styles.projeto_info}>
+                <ProjetoForm
+                  handleSubmit={editPost} btnText="Concluir edição" projetoData={projeto} />
+              </div>
+            )}
           </div>
+          </Container>
         </div>
       ) : (
         <Carregamento />
