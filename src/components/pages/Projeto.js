@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { parse, v4 as uuidv4 } from 'uuid'
 
 import styles from './Projeto.module.css'
 
@@ -8,6 +9,7 @@ import Container from '../layout/Container'
 import Msg from '../layout/Msg'
 
 import ProjetoForm from '../project/ProjetoForm'
+import ServicoForm from '../service/ServicoForm'
 
 function Projeto() {
 
@@ -68,6 +70,43 @@ function Projeto() {
       .catch((err) => console.log(err))
   }
 
+  function criarServico() {
+
+    setMsg('')
+    
+    const ultimoServico = projeto.servicos[projeto.servicos.length - 1]
+
+    ultimoServico.id = uuidv4()
+
+    const ultimoServicoCost = ultimoServico.cost
+
+    const novoCost = parseFloat(projeto.cost) + parseFloat(ultimoServicoCost)
+
+    if(novoCost > parseFloat(projeto.valorT)){
+      setMsg('Orçamento ultrapassado, verifique o valor do serviço')
+      setTipo('erro')
+      projeto.servicos.pop()
+      return 
+    }
+
+    // add de serviço 
+    projeto.cost = novoCost
+
+    // atualizacao do projeto
+    fetch(`http://localhost:5000/projetos/${projeto.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(projeto),
+    }).then((resp) => resp.json())
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((err) => console.log(err))
+
+  }
+
   return (
     <>
       {projeto.nomeP ? (
@@ -109,7 +148,12 @@ function Projeto() {
                 {!mostraServicoForm ? 'Adicionar serviço' : 'Fechar'}
               </button>
               <div className={styles.projeto_info}>
-                {mostraServicoForm && <div>formulário do serviço</div>}
+                {mostraServicoForm && (
+                  <ServicoForm
+                    handleSubmit={criarServico}
+                    btnText="Adicionar Serviço"
+                    projetoData={projeto}/>
+                )}
               </div>
             </div>
             <h2>Serviços</h2>
