@@ -14,6 +14,7 @@ function Projeto() {
   const { id } = useParams()
   const [projeto, setProjeto] = useState([])
   const [mostraProjetoForm, setMostraProjetoForm] = useState(false)
+  const [mostraServicoForm, setMostraServicoForm] = useState(false)
   const [msg, setMsg] = useState()
   const [tipo, setTipo] = useState()
 
@@ -36,7 +37,13 @@ function Projeto() {
     setMostraProjetoForm(!mostraProjetoForm)
   }
 
+  function toggleServicoForm() {
+    setMostraServicoForm(!mostraServicoForm)
+  }
+
   function editPost(projeto) {
+
+    setMsg('')
 
     if (projeto.valorT < projeto.cost) {
       setMsg('O orçamento não pode ser menor que o custo do projeto!')
@@ -56,7 +63,7 @@ function Projeto() {
         setMostraProjetoForm(false)
 
         setMsg('Projeto atualizado!')
-      setTipo('sucesso')
+        setTipo('sucesso')
       })
       .catch((err) => console.log(err))
   }
@@ -67,34 +74,48 @@ function Projeto() {
         <div className={styles.projeto_detalhes}>
           <Container customClass="column">
 
-          {msg && <Msg tipo={tipo} msg={msg} />}
+            {msg && <Msg tipo={tipo} msg={msg} />}
 
-          <div className={styles.detalhes_container}>
-            <h1>Projeto: {projeto.nomeP}</h1>
+            <div className={styles.detalhes_container}>
+              <h1>Projeto: {projeto.nomeP}</h1>
 
-            <button className={styles.btn} onClick={toggleProjetoForm}>
-              {!mostraProjetoForm ? 'Editar Projeto' : 'Fechar'}
-            </button>
+              <button className={styles.btn} onClick={toggleProjetoForm}>
+                {!mostraProjetoForm ? 'Editar Projeto' : 'Fechar'}
+              </button>
 
-            {!mostraProjetoForm ? (
+              {!mostraProjetoForm ? (
+                <div className={styles.projeto_info}>
+                  <p>
+                    <span>Categoria:</span> {projeto.categorias.name}
+                  </p>
+                  <p>
+                    <span>Total de Orçamento:</span> {projeto.valorT}
+                  </p>
+                  <p>
+                    <span>Total Utilizado:</span> R$ {projeto.cost}
+                  </p>
+                </div>
+              ) : (
+                <div className={styles.projeto_info}>
+                  <ProjetoForm
+                    handleSubmit={editPost} btnText="Concluir edição" projetoData={projeto} />
+                </div>
+              )}
+            </div>
+
+            <div className={styles.servico_form_container}>
+              <h2>Adicione um serviço:</h2>
+              <button className={styles.btn} onClick={toggleServicoForm}>
+                {!mostraServicoForm ? 'Adicionar serviço' : 'Fechar'}
+              </button>
               <div className={styles.projeto_info}>
-                <p>
-                  <span>Categoria:</span> {projeto.categorias.name}
-                </p>
-                <p>
-                  <span>Total de Orçamento:</span> {projeto.valorT}
-                </p>
-                <p>
-                  <span>Total Utilizado:</span> R$ {projeto.cost}
-                </p>
+                {mostraServicoForm && <div>formulário do serviço</div>}
               </div>
-            ) : (
-              <div className={styles.projeto_info}>
-                <ProjetoForm
-                  handleSubmit={editPost} btnText="Concluir edição" projetoData={projeto} />
-              </div>
-            )}
-          </div>
+            </div>
+            <h2>Serviços</h2>
+            <Container customClass='start'>
+                <p>Itens de serviço</p>
+            </Container>
           </Container>
         </div>
       ) : (
