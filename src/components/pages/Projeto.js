@@ -10,11 +10,13 @@ import Msg from '../layout/Msg'
 
 import ProjetoForm from '../project/ProjetoForm'
 import ServicoForm from '../service/ServicoForm'
+import ServicoCard from '../service/ServicoCard'
 
 function Projeto() {
 
   const { id } = useParams()
   const [projeto, setProjeto] = useState([])
+  const [servicos, setServicos] = useState([])
   const [mostraProjetoForm, setMostraProjetoForm] = useState(false)
   const [mostraServicoForm, setMostraServicoForm] = useState(false)
   const [msg, setMsg] = useState()
@@ -30,6 +32,7 @@ function Projeto() {
       }).then((resp) => resp.json())
         .then((data) => {
           setProjeto(data)
+          setServicos(data.servicos)
         })
         .catch((err) => console.log(err))
     }, 300)
@@ -101,9 +104,13 @@ function Projeto() {
       body: JSON.stringify(projeto),
     }).then((resp) => resp.json())
       .then((data) => {
-        console.log(data)
+        setMostraServicoForm(false)
       })
       .catch((err) => console.log(err))
+
+  }
+
+  function removeServico(){
 
   }
 
@@ -158,7 +165,18 @@ function Projeto() {
             </div>
             <h2>Serviços</h2>
             <Container customClass='start'>
-                <p>Itens de serviço</p>
+                {servicos.length > 0 && 
+                  servicos.map((servico) =>(
+                    <ServicoCard 
+                      id={servico.id}
+                      nome={servico.nome}
+                      cost={servico.cost}
+                      descricao={servico.descricao}
+                      key={servico.id}
+                      handleRemove={removeServico} />
+                  ))
+                }
+                {servicos.length === 0 && <p>Não há serviços cadastrados.</p>}
             </Container>
           </Container>
         </div>
