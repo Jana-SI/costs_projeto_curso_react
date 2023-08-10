@@ -9,7 +9,7 @@ Projeto desenvolvido durante as aulas do curso de react (aula 16.5 ate 37)
 
 🏠 **Home:** tela de boas vindas, criar projeto;<br>
 ⚒️ **Projetos:** exibir meus projetos, criar projeto, editar projeto e excluir projeto;<br>
-- ✏️ **editar projeto:** exibir detalhes do projeto (categoria, total de orçamento, total utilizado, restante do orçamento), editar projeto, adicionar serviços, exibir serviços (nome do serviço, Custo total e a descrição) e excluir serviço;<br>
+- ✏️ **editar projeto:** exibir detalhes do projeto (categoria, total de orçamento, total utilizado, restante do orçamento), editar projeto, adicionar serviços, exibir serviços (nome do serviço, custo total e a descrição) e excluir serviço;<br>
 
 🏢 **Empresa e 📞 Contato**: criados para testar funcionalidade dos routes.
 
