@@ -5,7 +5,8 @@ import { BsFillTrashFill } from "react-icons/bs";
 function ServicoCard({ id, nome, cost, descricao, key, handleRemove }) {
 
 const remove = (e) =>{
-
+    e.preventDefault()
+    handleRemove(id, cost)
 }
 
     return (

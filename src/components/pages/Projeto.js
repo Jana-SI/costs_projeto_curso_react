@@ -110,7 +110,32 @@ function Projeto() {
 
   }
 
-  function removeServico(){
+  function removeServico(id, cost){
+
+    const servicosAtualizar = projeto.servicos.filter(
+      (servico) => servico.id !== id
+    )
+
+    const projetoAtualizar = projeto
+    
+    projetoAtualizar.servicos = servicosAtualizar
+
+    projetoAtualizar.cost = parseFloat(projetoAtualizar.cost) - parseFloat(cost)
+
+     // atualizacao do projeto
+     fetch(`http://localhost:5000/projetos/${projetoAtualizar.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(projetoAtualizar),
+    }).then((resp) => resp.json())
+      .then((data) => {
+        setProjeto(projetoAtualizar)
+        setServicos(servicosAtualizar)
+        setMsg('Serviço removido com sucesso!')
+      })
+      .catch((err) => console.log(err))
 
   }
 
@@ -139,6 +164,9 @@ function Projeto() {
                   </p>
                   <p>
                     <span>Total Utilizado:</span> R$ {projeto.cost}
+                  </p>
+                  <p>
+                    <span>Restante do orçamento:</span> R$ {projeto.valorT - projeto.cost}
                   </p>
                 </div>
               ) : (

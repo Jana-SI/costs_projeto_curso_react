@@ -31,19 +31,13 @@
         "id": "2",
         "name": "Desenvolvimento"
       },
-      "cost": 600,
+      "cost": 500,
       "servicos": [
         {
           "nome": "Contratar Dev",
           "cost": "500",
           "descricao": "Vai criar funções de envio de emails",
           "id": "ac3b0321-8efe-4f08-a64f-baa40a862346"
-        },
-        {
-          "nome": "Novo serviço",
-          "cost": "100",
-          "descricao": "teste de fechamento do form",
-          "id": "21c0890a-f69f-4197-8d2e-55f46a8d4805"
         }
       ],
       "id": 2
