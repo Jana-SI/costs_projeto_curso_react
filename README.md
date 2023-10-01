@@ -22,4 +22,14 @@ npm run backend
 
 ---
 
+## 💻 Tecnologias utilizadas neste site
+
+<p align="center">
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
+<img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+<p>
+
+---
+
 ## 💻 Curso: [Curso de React - Matheus Battisti - Hora de Coda](https://www.youtube.com/playlist?list=PLnDvRpP8BneyVA0SZ2okm-QBojomniQVO)
