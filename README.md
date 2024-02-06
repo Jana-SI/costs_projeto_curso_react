@@ -17,8 +17,9 @@ Projeto desenvolvido durante as aulas do curso de react (aula 16.5 ate 37)
 
 ## ⚙️ Rodar projeto
 
-npm start<br>
-npm run backend
+    npm install
+    npm start
+    npm run backend
 
 ---
 
