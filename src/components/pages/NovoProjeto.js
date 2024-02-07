@@ -12,10 +12,10 @@ function NovoProjeto() {
         projeto.cost = 0
         projeto.servicos = []
 
-        fetch("http://localhost:5000/projetos", {
+        fetch("https://db-costs-57f16-default-rtdb.firebaseio.com/projetos", {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify(projeto)
         })

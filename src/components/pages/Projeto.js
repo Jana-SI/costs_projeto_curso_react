@@ -24,11 +24,11 @@ function Projeto() {
 
   useEffect(() => {
     setTimeout(() => {
-      fetch(`http://localhost:5000/projetos/${id}`, {
+      fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${id}.json`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-        },
+          'Access-Control-Allow-Origin': '*'
+      },
       }).then((resp) => resp.json())
         .then((data) => {
           setProjeto(data)
@@ -56,11 +56,11 @@ function Projeto() {
       return false
     }
 
-    fetch(`http://localhost:5000/projetos/${id}`, {
+    fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${id}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Access-Control-Allow-Origin': '*'
+    },
       body: JSON.stringify(projeto),
     }).then((resp) => resp.json())
       .then((data) => {
@@ -96,11 +96,11 @@ function Projeto() {
     projeto.cost = novoCost
 
     // atualizacao do projeto
-    fetch(`http://localhost:5000/projetos/${projeto.id}`, {
+    fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${projeto.id}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Access-Control-Allow-Origin': '*'
+    },
       body: JSON.stringify(projeto),
     }).then((resp) => resp.json())
       .then((data) => {
@@ -123,11 +123,11 @@ function Projeto() {
     projetoAtualizar.cost = parseFloat(projetoAtualizar.cost) - parseFloat(cost)
 
      // atualizacao do projeto
-     fetch(`http://localhost:5000/projetos/${projetoAtualizar.id}`, {
+     fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${projetoAtualizar.id}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Access-Control-Allow-Origin': '*'
+    },
       body: JSON.stringify(projetoAtualizar),
     }).then((resp) => resp.json())
       .then((data) => {

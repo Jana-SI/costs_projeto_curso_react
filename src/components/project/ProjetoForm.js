@@ -13,12 +13,7 @@ function ProjetoForm({ handleSubmit, btnText, projetoData}) {
     const [projeto, setProjeto] = useState(projetoData || {})
 
     useEffect(() => {
-        fetch("http://localhost:5000/categorias", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        fetch("https://db-costs-57f16-default-rtdb.firebaseio.com/categorias.json")
         .then((resp) => resp.json())
         .then((data) => {
             setCategorias(data)
