@@ -28,11 +28,15 @@ function Projeto() {
         method: 'GET',
         headers: {
           'Access-Control-Allow-Origin': '*'
-      },
+        },
       }).then((resp) => resp.json())
         .then((data) => {
           setProjeto(data)
-          setServicos(data.servicos)
+          if (data.projetos && data.projetos[0].servicos) {
+            setServicos(data.projetos[0].servicos)
+          } else {
+            setServicos([]) // ou outra ação apropriada se não houver serviços
+          }
         })
         .catch((err) => console.log(err))
     }, 300)
@@ -56,11 +60,11 @@ function Projeto() {
       return false
     }
 
-    fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${id}`, {
+    fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${id}.json`, {
       method: 'PATCH',
       headers: {
         'Access-Control-Allow-Origin': '*'
-    },
+      },
       body: JSON.stringify(projeto),
     }).then((resp) => resp.json())
       .then((data) => {
@@ -76,7 +80,7 @@ function Projeto() {
   function criarServico() {
 
     setMsg('')
-    
+
     const ultimoServico = projeto.servicos[projeto.servicos.length - 1]
 
     ultimoServico.id = uuidv4()
@@ -85,22 +89,22 @@ function Projeto() {
 
     const novoCost = parseFloat(projeto.cost) + parseFloat(ultimoServicoCost)
 
-    if(novoCost > parseFloat(projeto.valorT)){
+    if (novoCost > parseFloat(projeto.valorT)) {
       setMsg('Orçamento ultrapassado, verifique o valor do serviço')
       setTipo('erro')
       projeto.servicos.pop()
-      return 
+      return
     }
 
     // add de serviço 
     projeto.cost = novoCost
 
     // atualizacao do projeto
-    fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${projeto.id}`, {
+    fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${projeto.id}.json`, {
       method: 'PATCH',
       headers: {
         'Access-Control-Allow-Origin': '*'
-    },
+      },
       body: JSON.stringify(projeto),
     }).then((resp) => resp.json())
       .then((data) => {
@@ -110,24 +114,24 @@ function Projeto() {
 
   }
 
-  function removeServico(id, cost){
+  function removeServico(id, cost) {
 
     const servicosAtualizar = projeto.servicos.filter(
       (servico) => servico.id !== id
     )
 
     const projetoAtualizar = projeto
-    
+
     projetoAtualizar.servicos = servicosAtualizar
 
     projetoAtualizar.cost = parseFloat(projetoAtualizar.cost) - parseFloat(cost)
 
-     // atualizacao do projeto
-     fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${projetoAtualizar.id}`, {
+    // atualizacao do projeto
+    fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${projetoAtualizar.id}.json`, {
       method: 'PATCH',
       headers: {
         'Access-Control-Allow-Origin': '*'
-    },
+      },
       body: JSON.stringify(projetoAtualizar),
     }).then((resp) => resp.json())
       .then((data) => {
@@ -187,24 +191,24 @@ function Projeto() {
                   <ServicoForm
                     handleSubmit={criarServico}
                     btnText="Adicionar Serviço"
-                    projetoData={projeto}/>
+                    projetoData={projeto} />
                 )}
               </div>
             </div>
             <h2>Serviços</h2>
             <Container customClass='start'>
-                {servicos.length > 0 && 
-                  servicos.map((servico) =>(
-                    <ServicoCard 
-                      id={servico.id}
-                      nome={servico.nome}
-                      cost={servico.cost}
-                      descricao={servico.descricao}
-                      key={servico.id}
-                      handleRemove={removeServico} />
-                  ))
-                }
-                {servicos.length === 0 && <p>Não há serviços cadastrados.</p>}
+              {servicos.length > 0 &&
+                servicos.map((servico) => (
+                  <ServicoCard
+                    id={servico.id}
+                    nome={servico.nome}
+                    cost={servico.cost}
+                    descricao={servico.descricao}
+                    key={servico.id}
+                    handleRemove={removeServico} />
+                ))
+              }
+              {servicos.length === 0 && <p>Não há serviços cadastrados.</p>}
             </Container>
           </Container>
         </div>
