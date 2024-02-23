@@ -43,26 +43,19 @@ function Projetos() {
   }, [])
 
   function removeProjeto(id) {
-    console.log(id);
+    console.log(id)
     fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${id}.json`, {
       method: 'DELETE',
       headers: {
         'Access-Control-Allow-Origin': '*'
       },
-    })
-    .then((resp) => {
-      if (!resp.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return resp.json();
-    })
-    .then(() => {
-      setProjetos(projetos.filter((projeto) => projeto.id !== id));
-      setProjetoMsg('Projeto removido com sucesso!');
-    })
-    .catch((err) => console.error('Error:', err));
+    }).then((resp) => resp.json())
+      .then(() => {
+        setProjetos(projetos.filter((projeto) => projeto.id !== id))
+        setProjetoMsg('Projeto removido com sucesso!')
+      })
+      .catch((err) => console.log(err))
   }
-  
 
   return (
     <div className={styles.projeto_container}>
@@ -78,7 +71,7 @@ function Projetos() {
         {projetos.length > 0 &&
           projetos.map((projeto, index) => (
             <ProjetoCard
-              id={`${projeto.id}`}  // Use o índice como parte do ID
+              id={`${projeto.id}-${index}`}  // Use o índice como parte do ID
               nomeP={projeto.nomeP}
               valorT={projeto.valorT}
               categoria={projeto.categorias.name}
