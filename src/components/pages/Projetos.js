@@ -28,14 +28,8 @@ function Projetos() {
     setTimeout(() => {
       fetch('https://db-costs-57f16-default-rtdb.firebaseio.com/projetos.json').then((resp) => resp.json())
         .then((data) => {
-
-          // Convertendo os objetos em um array com o ID do Firebase
-          const projetosArray = Object.keys(data).map((key) => ({
-            id: key,
-            ...data[key],
-          }));
-
-          setProjetos(projetosArray);
+          console.log(data)
+          setProjetos(data)
           setRemoveCarregamento(true)
         })
         .catch((err) => console.log(err))
@@ -43,12 +37,11 @@ function Projetos() {
   }, [])
 
   function removeProjeto(id) {
-    console.log(id)
-    fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${id}.json`, {
+    fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${id}`, {
       method: 'DELETE',
       headers: {
         'Access-Control-Allow-Origin': '*'
-      },
+    },
     }).then((resp) => resp.json())
       .then(() => {
         setProjetos(projetos.filter((projeto) => projeto.id !== id))
@@ -69,21 +62,19 @@ function Projetos() {
 
       <Container customClass="start">
         {projetos.length > 0 &&
-          projetos.map((projeto, index) => (
-            <ProjetoCard
-              id={`${projeto.id}-${index}`}  // Use o índice como parte do ID
+          projetos.map((projeto) => (
+            <ProjetoCard 
+              id={projeto.id}
               nomeP={projeto.nomeP}
               valorT={projeto.valorT}
               categoria={projeto.categorias.name}
-              key={`${projeto.id}-${index}`}  // Use o índice como parte da chave
-              handleRemove={removeProjeto}
-            />
+              key={projeto.id}
+              handleRemove={removeProjeto}/>
           ))}
-
-        {!removeCarregamento && <Carregamento />}
-        {removeCarregamento && projetos.length === 0 && (
-          <p>Não há projetos cadastrados!</p>
-        )}
+          {!removeCarregamento && <Carregamento />}
+          {removeCarregamento && projetos.length === 0 &&(
+            <p>Não há projetos cadastrados!</p>
+          )}
       </Container>
     </div>
   )
