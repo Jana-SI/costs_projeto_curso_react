@@ -26,7 +26,12 @@ function Projetos() {
 
   useEffect(() => {
     setTimeout(() => {
-      fetch('https://db-costs-57f16-default-rtdb.firebaseio.com/projetos.json').then((resp) => resp.json())
+      fetch('http://localhost:5000/projetos', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then((resp) => resp.json())
         .then((data) => {
           console.log(data)
           setProjetos(data)
@@ -37,11 +42,11 @@ function Projetos() {
   }, [])
 
   function removeProjeto(id) {
-    fetch(`https://db-costs-57f16-default-rtdb.firebaseio.com/projetos/${id}`, {
+    fetch(`http://localhost:5000/projetos/${id}`, {
       method: 'DELETE',
       headers: {
-        'Access-Control-Allow-Origin': '*'
-    },
+        'Content-Type': 'application/json'
+      },
     }).then((resp) => resp.json())
       .then(() => {
         setProjetos(projetos.filter((projeto) => projeto.id !== id))
